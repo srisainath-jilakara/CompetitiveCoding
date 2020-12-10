@@ -1,0 +1,32 @@
+class Solution {
+    public String largestNumber(int[] nums) {
+       String max="0";
+      for(int k=0;k<nums.length;k++)
+      {
+          String x =nums[k]+"";
+        for(int i=k+1; i<nums.length;i++)
+        {
+          
+            String y = nums[i]+"";
+           
+            if((nums[k]+""+nums[i]).compareTo(nums[i]+""+nums[k])<=0)
+            {
+                int temp = nums[k];
+                nums[k]=nums[i];
+                nums[i]=temp;
+            }
+            //System.out.println(res);
+        }
+          
+      }
+          String str="";
+        for(int j=0;j<nums.length;j++)
+         str = str + nums[j]+"";
+           // System.out.print(nums[j]);
+      //  System.out.println("");
+        if(str.charAt(0)=='0')
+            return "0"; 
+           return str; 
+    }
+
+}
