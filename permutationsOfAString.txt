@@ -1,0 +1,56 @@
+/*package whatever //do not write package name here */
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class GFG {
+    public static void pm(String str,int start, int end,ArrayList<String>arr )
+    {
+      
+          if(start == end)
+          arr.add(str);
+        else
+        {
+        for(int i=start; i< str.length();i++)
+        {
+          str = swap(str ,start , i);
+          pm(str,start+1,end,arr);
+          str = swap(str ,start , i);
+          
+        }
+        }
+    
+    }
+    public static String swap(String str, int start,int i)
+    {
+        char temp[] = str.toCharArray();
+        char tmp= temp[i];
+        temp[i]=temp[start];
+        temp[start]=tmp;
+       
+       return String.valueOf(temp);
+        
+    }
+	public static void main (String[] args) {
+		//code
+	  Scanner sc = new Scanner(System.in);    
+	  int t = sc.nextInt();
+	  ArrayList<String> arr=  new ArrayList<String>();
+	  for(int i=0;i<t;i++)
+	  {
+	      String str = sc.next();
+	         pm(str,0,str.length()-1,arr);
+	         Collections.sort(arr);
+	         for(String s : arr)
+	         {
+	             System.out.print(s+" ");
+	         }
+	         System.out.println();
+	         arr.clear();
+	        
+	  }
+	    
+ 
+	}
+}
