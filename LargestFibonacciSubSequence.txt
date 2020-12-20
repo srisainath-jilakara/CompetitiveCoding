@@ -1,0 +1,38 @@
+/*package whatever //do not write package name here */
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class GFG {
+	public static void main (String[] args) {
+		//code
+		int fib[] = new int[100];
+		fib[0]=0;fib[1]=1;
+		    for(int k =2 ;k<100;k++)
+		        fib[k]=fib[k-1]+fib[k-2];
+		Scanner sc = new Scanner(System.in);
+		int t = sc.nextInt();
+		for(int i =0;i<t;i++)
+		   {
+		       int l = sc.nextInt();
+		       int arr[] = new int[l];
+		       for(int j=0;j<l;j++)
+		          {
+		              arr[j] = sc.nextInt();
+		              for(int h=0;h<fib.length;h++)
+		                    {
+		                        if(arr[j]==fib[h])
+		                        {
+		                            System.out.print(arr[j]+ " ");
+		                            break;
+		                            
+		                        }
+		                    }
+		          }
+		          
+		            
+		       System.out.println();
+		   }
+	}
+}
