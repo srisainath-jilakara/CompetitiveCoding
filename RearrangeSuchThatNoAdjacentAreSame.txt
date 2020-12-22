@@ -1,0 +1,47 @@
+/*package whatever //do not write package name here */
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class GFG {
+    public static int reArrange(char ch[])
+    {
+     
+        int max_freq = 0;
+        for( int i =0;i<ch.length;i++)
+            {
+                
+                int j = i+1;
+                int temp =1;
+                while(j<ch.length)
+                {
+                    if(ch[i]==ch[j])
+                        {
+                            temp++;
+                            j++;
+                        }
+                        else
+                            break;
+                }
+                if(temp>max_freq)
+                    max_freq = temp;
+            }
+    
+        if(max_freq<=(ch.length-max_freq))
+           return 1;
+           
+          return 0;
+    }
+	public static void main (String[] args) {
+		//code
+	    Scanner sc = new Scanner(System.in);
+	    int t = sc.nextInt();
+	    for(int i=0;i<t;i++)
+	       {
+	           String str = sc.next();
+	           System.out.println(reArrange(str.toCharArray()));
+	       } 
+	    
+	}
+}
