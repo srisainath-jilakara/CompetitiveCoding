@@ -1,0 +1,40 @@
+class Solution {
+    List<List<Integer>> list = new ArrayList<>();
+    public List<List<Integer>> permute(int[] nums) {
+        
+        permutations(nums,0,nums.length-1);
+      
+        return list;
+        
+    }
+   
+    public void permutations (int [] nums,int start ,int end)
+    {
+           if(start == end)
+           {
+              
+             list.add(IntStream.of(nums).boxed().collect(Collectors.toList()));
+           }
+        else
+        {
+        for(int i=start; i< nums.length;i++)
+        {
+          nums = swap(nums ,start , i);
+          permutations(nums,start+1,end);
+          nums = swap(nums ,start , i);
+          
+        }
+        }
+    }
+     public  int[] swap(int [] nums, int start,int i)
+    {
+   
+        int tmp= nums[i];
+        nums[i]=nums[start];
+        nums[start]=tmp;
+       
+       return nums;
+        
+    }
+	
+}
