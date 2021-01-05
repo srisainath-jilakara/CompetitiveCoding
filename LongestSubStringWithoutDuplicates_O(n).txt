@@ -1,0 +1,27 @@
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+         if(s.equals("")||s==null)
+            return 0;
+    int max = 1;
+    int j=0,i=0;
+     int freq [] = new int[256];
+        freq[s.charAt(0)]=1;
+   while(j!=s.length()-1)
+   {
+       if(freq[s.charAt(j+1)]==0)
+       {
+           j++;
+           freq[s.charAt(j)]++;
+           max = Math.max(max,j-i+1);
+           
+       }
+       else
+       {
+           freq[s.charAt(i)]--;
+           i++;
+       }
+       
+   }
+        return max;
+    }
+}
