@@ -1,0 +1,30 @@
+class Solution {
+    public String reverseWords(String s) {
+        int i = 0;
+        Stack<String> stack = new Stack<>();
+        while(i<s.length())
+        {
+            String str = "";
+            while(i<s.length() && s.charAt(i)!=' ')
+            {
+                str += s.charAt(i);
+                i++;
+            }
+            if(!str.equals(""))
+            {
+                stack.push(str);
+               stack.push(" ");
+        
+            }
+            i++;
+            }
+        
+        String temp="";
+        stack.pop();
+        while(!stack.isEmpty())
+        {
+            temp = temp+stack.pop();
+        }
+        return temp;
+    }
+}
