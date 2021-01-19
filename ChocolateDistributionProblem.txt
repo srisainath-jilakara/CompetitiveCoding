@@ -1,0 +1,40 @@
+/*package whatever //do not write package name here */
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class GFG {
+	public static void main (String[] args) {
+		//code
+		Scanner sc =  new Scanner(System.in);
+		int t = sc.nextInt();
+		  int result = Integer.MAX_VALUE;
+		for(int i=0;i<t;i++)
+		{
+		    int N = sc.nextInt();
+		    int arr[] = new int[N];
+		    for(int j=0;j<N;j++)
+		        arr[j]=sc.nextInt();
+		    int M = sc.nextInt();
+		    Arrays.sort(arr);
+		     int min_diff = Integer.MAX_VALUE;
+      
+        // Find the subarray of size m 
+        // such that difference between 
+        // last (maximum in case of 
+        // sorted) and first (minimum in
+        // case of sorted) elements of 
+        // subarray is minimum.
+         
+        for (int k = 0; k + M - 1 < N; k++)
+        {
+            int diff = arr[k+M-1] - arr[k];
+            if (diff < min_diff)
+                min_diff = diff;
+        }
+		    System.out.println(min_diff);
+		}
+		
+	}
+}
