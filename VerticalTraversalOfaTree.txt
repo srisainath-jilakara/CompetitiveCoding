@@ -1,0 +1,77 @@
+
+
+  class TreeNode {
+     int val;
+     TreeNode left;
+      TreeNode right;
+      TreeNode() {}
+      TreeNode(int val) { this.val = val; }
+      TreeNode(int val, TreeNode left, TreeNode right) {
+          this.val = val;
+          this.left = left;
+          this.right = right;
+      }
+  }
+
+class Solution {
+     TreeMap<Integer,List<Integer>> tm = new TreeMap<Integer,List<Integer>>();
+    public List<List<Integer>> verticalTraversal(TreeNode root) {
+        if(root==null)
+            return null;
+        List<List<Integer>> res = new ArrayList<>();
+        Queue<Vdist> q = new LinkedList<>();
+        q.add(new Vdist(root,0));
+        while(!q.isEmpty())
+        {
+            int size = q.size();
+            for(int i=0;i<size;i++)
+            {
+                Vdist temp = q.remove();
+                TreeNode node = temp.node;
+                System.out.print(node.val + " ");
+                int dis = temp.dis;
+                if(tm.containsKey(dis))
+                {
+                    List<Integer> l = tm.get(dis);
+                    l.add(node.val);
+                    tm.put(dis,l);
+                }
+                else
+                {
+                     List<Integer> l = new ArrayList<>();
+                    l.add(node.val);
+                    tm.put(dis,l);
+                }
+               
+                if(node.right!=null)
+                {
+                   q.add(new Vdist(node.right,dis+1));  
+                }
+                 if(node.left!=null)
+                {
+                    q.add(new Vdist(node.left,dis-1));
+                    
+                }
+            }
+            System.out.println("");
+        }
+        
+        for(Map.Entry<Integer,List<Integer>> entry: tm.entrySet())
+        {
+            res.add(entry.getValue());
+        }
+      return res;  
+    }
+    
+        
+}
+public class Vdist
+{
+    TreeNode node;
+    int dis;
+    public Vdist(TreeNode node, int dis)
+    {
+        this.node = node;
+        this.dis=dis;
+    }
+}
