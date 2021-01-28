@@ -1,0 +1,104 @@
+class LRUCache {
+    
+    class Node{
+        
+        int key;
+        int value;
+        Node prev,next;
+        
+        Node(int key,int value){
+            this.key = key;
+            this.value = value;
+        }
+        
+    }
+    
+    Node head;
+    Node tail;
+    int capacity;
+    HashMap<Integer,Integer> map;
+    
+    public LRUCache(int capacity) {
+        
+        map = new HashMap<>(capacity);
+        this.capacity = capacity;
+        head = new Node(-1,-1);
+        tail = new Node(-1,-1);
+        head.next = tail;
+        tail.prev = head;
+        
+    }
+    
+    public int get(int key) {        
+        
+        if(!map.containsKey(key)){
+            return -1;
+        }
+        
+        int value = map.get(key);
+        updateDLL(key,value);
+        return value;
+    }
+    
+    public void put(int key, int value) {
+        
+        if(map.containsKey(key)){
+            
+            updateDLL(key,value);
+            map.put(key,value);
+            
+        }
+        else{
+            
+            addDLL(key,value);
+            map.put(key,value);
+            
+            if(map.size()>capacity){
+                
+                Node last = tail.prev;
+                last.prev.next = tail;
+                tail.prev = last.prev;
+                
+                map.remove(last.key);
+                
+            }
+        }
+        
+    }   
+    public void addDLL(int key,int value){
+        
+        Node node = new Node(key,value);
+        
+        Node next = head.next;
+        node.next = next;
+        next.prev = node;
+        head.next = node;
+        node.prev = head;
+        
+    }
+    //1-2-3
+        
+    public void remove(int key,int value){
+        
+        Node temp = head;
+        
+        while(temp.next!=null){
+            
+            if(temp.next.key==key){
+                temp.next = temp.next.next;
+                temp.next.prev = temp;
+                break;
+            }
+            temp = temp.next;
+            
+        }
+        
+    }
+       
+    public void updateDLL(int key,int value){
+        
+        remove(key,value);
+        addDLL(key,value);
+        
+    }
+}
