@@ -1,0 +1,152 @@
+// { Driver Code Starts
+//Initial Template for Java
+
+
+//Contributed by Sudarshan Sharma
+import java.util.*;
+import java.io.*;
+class Node{
+    int data;
+    Node left,right;
+    Node(int d){
+        data=d;
+        left=right=null;
+    }
+}
+
+
+class GfG{
+    
+    public static void main(String[] args)throws IOException{
+        //Scanner sc=new Scanner(System.in);
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
+        int t=Integer.parseInt(br.readLine());
+       
+        while(t > 0)
+           {
+               Queue<Node> q = new LinkedList<>();
+        
+            int n = Integer.parseInt(br.readLine());
+            String input[] = br.readLine().trim().split(" ");
+            
+            Node root = null;
+            int j=0;
+            while(n > 0){
+            int a1 = Integer.parseInt(input[j]);
+            int a2 = Integer.parseInt(input[j+1]);
+            char lr = input[j+2].charAt(0);
+            j+=3;
+            
+            if(root == null)
+            {
+                root = new Node(a1);
+                q.add(root);
+            }
+            
+            Node pick = q.peek();
+            
+            q.remove();
+            
+            if(lr=='L'){
+                pick.left = new Node(a2);
+                q.add(pick.left);
+            }
+            a1 = Integer.parseInt(input[j]);
+            a2 = Integer.parseInt(input[j+1]);
+            lr = input[j+2].charAt(0);
+            j += 3;
+            
+            if(lr=='R'){
+                pick.right = new Node(a2);
+                q.add(pick.right);
+            }
+            
+            n-=2;
+        }
+            new View().topView(root);
+            t--;
+        }
+    }
+}
+
+   
+
+
+// } Driver Code Ends
+
+
+//User function Template for Java
+
+
+
+/*class Node
+{
+    int data;
+    Node left, right;
+
+    Node(int item)
+    {
+        data = item;
+        left = right = null;
+    }
+}*/
+public class Top
+{
+    Node node;
+    int dis;
+    public  Top(Node node, int dis)
+    {
+        this.node = node;
+        this.dis=dis;
+    }
+    
+}
+class View
+{
+   static TreeMap<Integer,Integer> tm =new TreeMap<>();
+    // function should print the topView of the binary tree
+    static void topView(Node root)
+    {
+        if(root==null)
+        return;
+        topViewRecur(root);
+        for(Map.Entry<Integer,Integer> entry : tm.entrySet())
+        {
+          System.out.print(entry.getValue()+ " ")  ;
+        }
+        tm.clear();
+        System.out.println("");
+        
+    }
+    static void topViewRecur(Node root)
+    {
+        if(root==null)
+        return;
+        Queue<Top> q = new LinkedList<>();// add your code
+        q.add(new Top(root,0));
+        while(!q.isEmpty())
+        {
+            int size = q.size();
+            for(int i=0;i<size;i++)
+            {
+                Top temp = q.remove();
+                Node node = temp.node;
+                int dis = temp.dis;
+                if(!tm.containsKey(dis))
+                {
+                     tm.put(dis,node.data);
+                }
+                
+                if(node.left!=null)
+                {
+                    q.add(new Top(node.left,dis-1));
+                }
+                if(node.right!=null)
+                {
+                    q.add(new Top(node.right,dis+1));
+                }
+            }
+        }
+    }
+}
