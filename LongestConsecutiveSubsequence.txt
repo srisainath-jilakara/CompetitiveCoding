@@ -1,0 +1,67 @@
+// { Driver Code Starts
+//Initial Template for Java
+
+import java.util.Scanner;
+import java.util.*;
+import java.util.HashSet;
+
+class Driverclass
+{
+    // Driver Code
+	public static void main(String args[])
+	{
+		Scanner sc = new Scanner(System.in);
+		int t = sc.nextInt();
+		
+		while(t>0)
+		{
+			int n = sc.nextInt();
+			int a[] = new int[n];
+			
+			for(int i=0; i<n; i++)
+				a[i] = sc.nextInt();
+		    
+		    // Making object of GfG	
+			Subseq g = new Subseq();
+			
+			System.out.println(g.findLongestConseqSubseq(a, n));
+		
+		t--;
+		}
+	}
+}// } Driver Code Ends
+
+
+//User function Template for Java
+
+class Subseq
+{   
+    // arr[] : the input array
+    // N : size of the array arr[]
+    
+    // return the length of the longest subsequene of consecutive integers
+	static int findLongestConseqSubseq(int arr[], int N)
+	{
+	   // add your code here
+        HashSet<Integer> set = new HashSet<>();
+        for(int i=0;i<arr.length;i++)
+            set.add(arr[i]);
+            int ans = Integer.MIN_VALUE;
+            for(int j=0;j<arr.length;j++)
+            {
+                if(!set.contains(arr[j]-1))
+                {
+                    int k = arr[j];
+                    while(set.contains(k))
+                    {
+                        k++;
+                    }
+                if(ans< k -arr[j])
+                {
+                    ans = k-arr[j];
+                }
+                }
+            }
+            return ans;
+	}
+}
