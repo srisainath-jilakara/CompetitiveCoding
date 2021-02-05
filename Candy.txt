@@ -1,4 +1,8 @@
 class Solution {
+// use aux array - b to store choc distr
+//trav left to right - and add +1  to prev and assign to current- if it is greater than prev;
+// trav right to left - take max of B[i] & B[i+1]+1 
+
     public int candy(int[] A) {
         int N = A.length;
         int B[] = new int[N];
