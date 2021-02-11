@@ -9,11 +9,11 @@ class MedianFinder {
     }
     
     public void addNum(int num) {
-       minHeap.offer(num);
+        minHeap.offer(num);
         maxHeap.offer(minHeap.poll());
  
         if(minHeap.size()<maxHeap.size()){
-            minHeap.offer(maxHeap.poll());
+            maHeap.offer(maxHeap.poll());
         }
     }
     
