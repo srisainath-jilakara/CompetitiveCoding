@@ -1,0 +1,29 @@
+class Solution {
+    public int subarraysDivByK(int[] A, int K) {
+        int sum = 0;
+        int result = 0;
+        HashMap<Integer,Integer> hm = new HashMap<>();
+        for(int i=0;i<A.length;i++)
+        {
+            sum += A[i];
+            int temp = sum % K;
+            if(temp<0)
+                temp += K;
+            hm.put(temp,hm.getOrDefault(temp,0)+1);
+        }
+        
+        for(Map.Entry<Integer,Integer> entry : hm.entrySet())
+        {
+            int key = entry.getKey();
+            int val = entry.getValue();
+            if(key==0)
+            {
+                result += val+(val*(val-1)/2);
+            }
+            else
+                result += (val)*(val-1)/2;
+        }
+        
+        return result;
+    }
+}
