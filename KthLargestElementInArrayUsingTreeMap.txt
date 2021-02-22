@@ -1,0 +1,22 @@
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+       Map<Integer,Integer> tm = new TreeMap<Integer,Integer>(Collections.reverseOrder());
+        for(int i=0;i<nums.length;i++)
+        {
+            tm.put(nums[i],tm.getOrDefault(nums[i],0)+1);
+        }
+        int count = 0;
+        int res = -1;
+        for(Map.Entry<Integer,Integer> entry : tm.entrySet())
+        {
+        count += entry.getValue();
+            if(count>=k)
+            {
+                System.out.println(count);
+                res = entry.getKey();
+                break;
+            }
+        }
+        return res;
+    }
+}
