@@ -1,0 +1,80 @@
+class Solution {
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        HashSet<String> set = new HashSet<>();
+        wordList.forEach(str->set.add(str));
+        return shortestChainLen(beginWord,endWord,set);
+        
+    }
+    public int shortestChainLen(String start, 
+                            String target, 
+                            Set<String> D)
+{
+ 
+    
+    if (!D.contains(target))
+        return 0;
+ 
+    int level = 0, wordlength = start.length();
+
+    Queue<String> Q = new LinkedList<>();
+    Q.add(start);
+
+    while (!Q.isEmpty())
+    {
+
+        ++level;
+ 
+        int sizeofQ = Q.size();
+ 
+        // Since the queue is being updated while
+        // it is being traversed so only the
+        // elements which were already present
+        // in the queue before the start of this
+        // loop will be traversed for now
+        for (int i = 0; i < sizeofQ; ++i) 
+        {
+ 
+            // Remove the first word from the queue
+            char []word = Q.peek().toCharArray();
+            Q.remove();
+ 
+            // For every character of the word
+            for (int pos = 0; pos < wordlength; ++pos)
+            {
+ 
+                // Retain the original character
+                // at the current position
+                char orig_char = word[pos];
+ 
+                // Replace the current character with
+                // every possible lowercase alphabet
+                for (char c = 'a'; c <= 'z'; ++c)
+                {
+                    word[pos] = c;
+ 
+                    // If the new word is equal
+                    // to the target word
+                    if (String.valueOf(word).equals(target))
+                        return level + 1;
+ 
+                    // Remove the word from the set
+                    // if it is found in it
+                    if (!D.contains(String.valueOf(word)))
+                        continue;
+                    D.remove(String.valueOf(word));
+ 
+                    // And push the newly generated word
+                    // which will be a part of the chain
+                    Q.add(String.valueOf(word));
+                }
+ 
+                // Restore the original character
+                // at the current position
+                word[pos] = orig_char;
+            }
+        }
+    }
+ 
+    return 0;
+}
+}
