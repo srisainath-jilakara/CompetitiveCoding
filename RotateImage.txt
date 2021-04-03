@@ -1,0 +1,29 @@
+class Solution {
+    public void rotate(int[][] A) {
+        int len =A.length-1;
+     for(int i =0;i<A.length;i++)
+     {
+         for(int j=i;j<A.length;j++)
+         {
+             int temp = A[i][j];
+             A[i][j]=A[j][i];
+             A[j][i]=temp;
+         }
+     }
+    
+        
+      
+     for(int i =0;i<A.length;i++)
+     {
+         for(int j=0;j<A.length/2;j++)
+         {
+             int temp = A[i][j];
+             A[i][j]=A[i][len-j];
+             A[i][len-j]=temp;
+         }
+     }
+    }
+}
+
+
+
