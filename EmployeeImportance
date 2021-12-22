@@ -1,0 +1,46 @@
+/*
+// Definition for Employee.
+class Employee {
+    public int id;
+    public int importance;
+    public List<Integer> subordinates;
+};
+*/
+
+class Solution {
+    public int getImportance(List<Employee> employees, int id) {
+            Queue<Employee> q = new LinkedList<>();
+        int result = 0;
+        for(Employee emp:employees)
+        {
+            if(emp.id==id)
+            {
+                q.add(emp);
+                break;
+            }
+        }
+        while(q.size()>0)
+        {
+            Employee e = q.remove();
+            //System.out.println(employees.get(id).importance);
+            result+= e.importance;
+            if(e.subordinates.size()!=0)
+            {
+                for(int i : e.subordinates)
+                {
+                    for(Employee emp:employees)
+                    {
+                        if(emp.id==i)
+                        {
+                            q.add(emp);
+                            break;
+                        }
+                    }
+                }
+            }
+            
+        }
+        return result;
+        
+    }
+}
