@@ -1,0 +1,47 @@
+class Solution {
+    public int[][] floodFill(int[][] image, int sr, int sc, int newColor) {
+        Queue<Grid> q = new LinkedList<>();
+        int r = image.length;
+        int c = image[0].length;
+        Grid g = new Grid(sr,sc);
+        boolean visited[][]=new boolean[r][c];
+        int old_value = 0;
+        
+          q.add(g);
+        while(q.size()>0)
+        {
+             g = q.remove();
+            old_value = image[g.i][g.j];
+            image[g.i][g.j]=newColor;
+            visited[g.i][g.j]=true;
+            if(g.i+1<r&&!visited[g.i+1][g.j]&&image[g.i+1][g.j]==old_value)
+            {
+                q.add(new Grid(g.i+1,g.j));
+            }
+            if(g.i-1>=0 && !visited[g.i-1][g.j]&&image[g.i-1][g.j]==old_value)
+            {
+                q.add(new Grid(g.i-1,g.j));
+            }
+            if(g.j+1<c && !visited[g.i][g.j+1]&&image[g.i][g.j+1]==old_value)
+            {
+                q.add(new Grid(g.i,g.j+1));
+            }
+            if(g.j-1>=0 && !visited[g.i][g.j-1]&&image[g.i][g.j-1]==old_value)
+            {
+                q.add(new Grid(g.i,g.j-1));
+            }
+        }
+        return image;
+        
+    }
+}
+class Grid
+{
+    int i;
+    int j;
+    public Grid(int i,int j)
+    {
+        this.i=i;
+        this.j=j;
+    }
+}
