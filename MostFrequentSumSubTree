@@ -1,0 +1,76 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+     HashMap<Integer,Integer> map = new HashMap<>();
+    public int[] findFrequentTreeSum(TreeNode root) {
+         solutionRecur(root,map);
+        
+        List<Integer> res = mapIterator(map);
+        int arr[] = new int[res.size()];
+        int j=0;
+        for(int i:res)
+            arr[j++]=i;
+        return arr;
+    }
+    public List<Integer> mapIterator(HashMap<Integer,Integer> map)
+    {
+        int max_freq = 0;
+        List<Integer> result = new ArrayList<>();
+        for(Map.Entry<Integer,Integer> entry:map.entrySet())
+        {
+         max_freq = max_freq<entry.getValue()?entry.getValue():max_freq;   
+        }
+        for(Map.Entry<Integer,Integer> entry:map.entrySet())
+        {
+         if(entry.getValue()==max_freq)
+         {
+             result.add(entry.getKey());
+         }
+        }
+        return result;
+    }
+    
+    public boolean isLeaf(TreeNode node)
+    {
+        if(node == null)
+            return false;
+        if(node.left==null && node.right==null)
+        return true;
+        
+        return false;
+    }
+    
+    public int solutionRecur(TreeNode node,HashMap<Integer,Integer> map)
+    {
+        if(isLeaf(node))
+        {
+            
+            map.put(node.val,map.getOrDefault(node.val,0)+1);
+            return node.val;
+        }
+        int sum_left=0; int sum_right=0;
+        if(node.left!=null)
+           sum_left = solutionRecur(node.left,map);
+        if(node.right!=null)
+           sum_right = solutionRecur(node.right,map);
+        //System.out.println(node.val+sum_left+sum_right);
+         map.put(node.val+sum_left+sum_right,map.getOrDefault(node.val+sum_left+sum_right,0)+1);
+        return node.val+sum_left+sum_right;
+        
+        
+    }
+    
+}
