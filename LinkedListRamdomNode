@@ -1,0 +1,44 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    int arr[] ;
+    public Solution(ListNode head) {
+        int count = 0;
+        ListNode temp = head;
+        while(temp!=null)
+        {
+            count++;
+            temp=temp.next;
+        }
+        arr = new int[count];
+        temp = head;
+        int i=0;
+        while(temp!=null)
+        {
+           arr[i++] = temp.val;
+            temp=temp.next;
+        }
+    }
+    
+    public int getRandom() {
+      
+        int min = 0;
+        int max = arr.length;
+        int range = max-min;
+        return arr[(int)(Math.random() * range) + min];
+    }
+}
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution obj = new Solution(head);
+ * int param_1 = obj.getRandom();
+ */
