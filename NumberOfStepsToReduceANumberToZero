@@ -1,0 +1,18 @@
+class Solution {
+    public int numberOfSteps(int num) {
+        return reduce(num,0);
+    }
+    int reduce(int num,int steps)
+    {
+        if(num==0)
+            return steps;
+        if(num%2==0)
+        {
+            num /= 2;
+           return reduce(num,steps+1);
+        }
+        else
+            num = num-1;            
+        return reduce(num,steps+1);
+    }
+}
