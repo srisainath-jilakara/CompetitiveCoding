@@ -1,0 +1,20 @@
+class Solution {
+
+public int numUniqueEmails(String[] emails) {
+
+Set<String> uniqueAddresses  = new HashSet<>();
+for (String email: emails) {
+String[]  parts = email.split("@");
+String localName = parts[0];
+String domain = parts[1];
+localName = localName.replace(".","");
+int plusIndex = localName.indexOf("+");
+if (plusIndex !=-1) {
+localName = localName.substring(0,plusIndex);
+}
+String proccessedAddress = localName+"@"+domain;
+uniqueAddresses.add(proccessedAddress);
+}
+return uniqueAddresses.size();
+}
+}
