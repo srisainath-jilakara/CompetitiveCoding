@@ -1,0 +1,40 @@
+class Solution {
+    public String nextClosestTime(String time) {
+        int minutes = Integer.parseInt(time.substring(3));
+        int hours = Integer.parseInt(time.substring(0, 2));
+        
+        HashSet<Character> set = new HashSet<>();
+        for (char c : time.toCharArray()) {
+            if (c != ':') {
+                set.add(c);
+            }
+        }
+
+        for (int i = 1; i < 1440; i++) {
+            minutes++;
+            if (minutes == 60) {
+                minutes = 0;
+                hours++;
+            }
+            if (hours == 24) {
+                hours = 0;
+            }
+
+            String closestTime = String.format("%02d:%02d", hours, minutes);
+
+            if (isValidTime(closestTime, set)) {
+                return closestTime;
+            }
+        }
+        return "";
+    }
+
+    public boolean isValidTime(String time, HashSet<Character> digits) {
+        for (char ch : time.toCharArray()) {
+            if (ch != ':' && !digits.contains(ch)) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
