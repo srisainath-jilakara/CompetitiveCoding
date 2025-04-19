@@ -1,0 +1,14 @@
+class RecentCounter {
+Queue<Integer> queue;
+public RecentCounter() {
+queue = new LinkedList<>();
+}
+public int ping(int time) {
+while(!queue.isEmpty() && time-queue.peek() > 3000) {
+queue.poll();
+}
+queue.offer(time);
+return queue.size();
+}
+}
+ 
