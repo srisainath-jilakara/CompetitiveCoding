@@ -1,0 +1,30 @@
+public class Solution {
+
+    public String addStrings(String s, String t) {
+        if (s == null || t == null) {
+            return null;
+        }
+
+        int pt1 = s.length() - 1;
+        int pt2 = t.length() - 1;
+        int carry = 0;
+
+        StringBuilder res = new StringBuilder();
+
+        while (pt1 >= 0 || pt2 >= 0 || carry > 0) {
+            int sum = carry;
+
+            sum += (pt1 >= 0) ? s.charAt(pt1) - '0' : 0;
+            sum += (pt2 >= 0) ? t.charAt(pt2) - '0' : 0;
+
+            res.append(sum % 10);
+            carry = sum / 10;
+
+            pt1--;
+            pt2--;
+        }
+
+        return res.reverse().toString();
+    }
+}
+
