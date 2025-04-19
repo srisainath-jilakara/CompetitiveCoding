@@ -1,0 +1,19 @@
+class Solution {
+
+public int getUniqueElements(int arr[]) {
+int len  = arr.length;
+if(len<=1) {
+return len;
+}
+int left = 1, right = 1;
+while(right<arr.length) {
+if(arr[right]!=arr[right-1]) {
+arr[left++]=arr[right];
+}
+right++;
+}
+return left;
+}
+}
+
+
