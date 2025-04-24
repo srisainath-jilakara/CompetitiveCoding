@@ -1,0 +1,16 @@
+class Solution {
+
+public int findContentChildren(int children[], int size[]) {
+Arrays.sort(children); Arrays.sort(size);
+int contentChildren = 0;
+int left = 0;
+int right = 0;
+while(left<size.length && right<children.length) {
+if(size[left]>=children[right]) {
+right++;
+}
+left++;
+}
+return right;
+}
+}
