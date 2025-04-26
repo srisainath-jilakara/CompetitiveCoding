@@ -1,0 +1,35 @@
+class Solution {
+
+public ArrayList<Integer> topoSort(int v,int [][]graph) {
+List<List<Integer>> adjList = new ArrayList<>();
+boolean visited[] = new boolean[v];
+Stack<Integer> stack = new Stack<>();
+ArrayList<Integer> result = new ArrayList<>();
+for (int i = 0; i < v; i++) {
+    adjList.add(new ArrayList<>());
+}
+for(int i=0;i<graph.length;i++) {
+       adjList.get(graph[i][0]).add(graph[i][1]);
+}
+
+
+for(int i=0;i<v;i++) {
+if(!visited[i]) {
+dfs(i,adjList,visited,stack);
+}
+}
+while(!stack.isEmpty()){
+result.add(stack.pop());
+}
+return result;
+}
+
+public void dfs(int v, List<List<Integer>> adjList, boolean visited[], Stack<Integer> stack) {
+visited[v]=true;
+for(int node:adjList.get(v)) {
+if(!visited[node])
+dfs(node,adjList,visited,stack);
+}
+stack.push(v);
+}
+}
