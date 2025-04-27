@@ -1,0 +1,72 @@
+class Solution {
+    public String findOrder(String[] words) {
+        List<List<Integer>> adjList = new ArrayList<>();
+        int[] inDegree = new int[26];
+        boolean[] seen = new boolean[26];
+        
+        for (int i = 0; i < 26; i++) {
+            adjList.add(new ArrayList<>());
+        }
+        
+        // Mark seen characters
+        for (String word : words) {
+            for (char c : word.toCharArray()) {
+                seen[c - 'a'] = true;
+            }
+        }
+        
+        int len = words.length;
+        for (int i = 0; i < len - 1; i++) {
+            String s = words[i];
+            String t = words[i + 1];
+            if (!buildGraph(adjList, s, t, inDegree)) {
+                return ""; // invalid case like ["abc", "ab"]
+            }
+        }
+        
+        Queue<Integer> queue = new LinkedList<>();
+        for (int a = 0; a < 26; a++) {
+            if (seen[a] && inDegree[a] == 0) {
+                queue.add(a);
+            }
+        }
+        
+        StringBuilder result = new StringBuilder();
+        while (!queue.isEmpty()) {
+            int V = queue.poll();
+            result.append((char) (V + 'a'));
+            for (int node : adjList.get(V)) {
+                inDegree[node]--;
+                if (inDegree[node] == 0) {
+                    queue.offer(node);
+                }
+            }
+        }
+        
+        // check if result contains all seen characters
+        int seenCount = 0;
+        for (boolean s : seen) {
+            if (s) seenCount++;
+        }
+        
+        return result.length() == seenCount ? result.toString() : "";
+    }
+    
+    public boolean buildGraph(List<List<Integer>> adjList, String s, String t, int[] inDegree) {
+        int i = 0, j = 0;
+        while (i < s.length() && j < t.length()) {
+            if (s.charAt(i) == t.charAt(j)) {
+                i++;
+                j++;
+            } else {
+                int from = s.charAt(i) - 'a';
+                int to = t.charAt(j) - 'a';
+                adjList.get(from).add(to);
+                inDegree[to]++;
+                return true;
+            }
+        }
+        // Important: check invalid case like ["abc", "ab"]
+        return s.length() <= t.length();
+    }
+}
