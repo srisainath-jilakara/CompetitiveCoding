@@ -1,0 +1,24 @@
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+    public static int frogJump(int n, int heights[]) {
+
+    
+        return frogJumpRecur(n-1,heights);
+    }
+    public static int frogJumpRecur(int index,int heights[]) {
+        int prev1 = 0, prev2 = 0, cur = 0;
+        for(int i = 1;i<=index;i++){
+            int left = prev1 + Math.abs(heights[i-1]-heights[i]);
+            int right = Integer.MAX_VALUE;
+            if(i>1)
+             right = prev2+Math.abs(heights[i-2]-heights[i]);
+            cur = Math.min(left,right);
+            prev2 = prev1;
+            prev1 = cur;
+        }
+        return cur;
+        
+    }
+
+}
