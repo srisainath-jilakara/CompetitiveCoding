@@ -1,0 +1,26 @@
+class Solution {
+    public int closestCost(int[] baseCosts, int[] toppingCosts, int target) {
+        int[] closest = new int[]{Integer.MAX_VALUE};
+
+        for (int base : baseCosts) {
+            dfs(toppingCosts, 0, base, closest, target);
+        }
+
+        return closest[0];
+    }
+
+    private void dfs(int[] toppings, int index, int currentCost, int[] closest, int target) {
+        if (Math.abs(target - currentCost) < Math.abs(target - closest[0]) ||
+            (Math.abs(target - currentCost) == Math.abs(target - closest[0]) && currentCost < closest[0])) {
+            closest[0] = currentCost;
+        }
+
+        if (index >= toppings.length || currentCost - target > Math.abs(closest[0] - target)) {
+            return;
+        }
+
+        dfs(toppings, index + 1, currentCost, closest, target);
+        dfs(toppings, index + 1, currentCost + toppings[index], closest, target);
+        dfs(toppings, index + 1, currentCost + 2 * toppings[index], closest, target);
+    }
+}
