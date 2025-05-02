@@ -1,0 +1,31 @@
+class Solution {
+    public int closestCost(int[] baseCosts, int[] toppingCosts, int target) {
+      
+        Set<Integer> possibleCosts = new HashSet<>();
+        
+       
+        for (int base : baseCosts) {
+            possibleCosts.add(base);
+        }
+
+        for (int topping : toppingCosts) {
+            Set<Integer> newPossibleCosts = new HashSet<>(possibleCosts);
+            for (int cost : possibleCosts) {
+                newPossibleCosts.add(cost + topping);
+                newPossibleCosts.add(cost + 2 * topping);
+            }
+            possibleCosts = newPossibleCosts;
+        }
+
+    
+        int closest = Integer.MAX_VALUE;
+        for (int cost : possibleCosts) {
+            if (Math.abs(target - cost) < Math.abs(target - closest) || 
+                (Math.abs(target - cost) == Math.abs(target - closest) && cost < closest)) {
+                closest = cost;
+            }
+        }
+
+        return closest;
+    }
+}
