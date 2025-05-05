@@ -1,0 +1,28 @@
+class Solution {
+    public int numMatchingSubseq(String s, String[] words) {
+     HashMap<Character,TreeSet<Integer>> freq = new HashMap<>();
+      for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (!freq.containsKey(c)) {
+                freq.put(c, new TreeSet<>());
+            }
+            freq.get(c).add(i); 
+        }
+     int count = 0;
+     for(String word: words) {
+        count += isMatchingSubSequence(word,freq);
+     }
+     return count;
+    }
+    public int isMatchingSubSequence(String word, HashMap<Character, TreeSet<Integer>> freq) {
+        int sIndex = 0;
+        for (int i = 0; i < word.length(); i++) {
+            char c = word.charAt(i);
+            if (!freq.containsKey(c)) return 0;
+            Integer nextIndex = freq.get(c).ceiling(sIndex);
+            if (nextIndex == null) return 0;
+            sIndex = nextIndex + 1;
+        }
+        return 1;
+}
+}
