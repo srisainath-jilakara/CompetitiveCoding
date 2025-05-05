@@ -1,0 +1,15 @@
+public class Solution {
+    public List<Long> maximumEvenSplit(long finalSum) {
+        List<Long> result = new ArrayList<>();
+        if (finalSum % 2 != 0) return result; 
+        long i = 2;
+        while(i<=finalSum) {
+            result.add(i);
+            finalSum -= i;
+            i=i+2;
+        }
+        result.add(finalSum+result.remove(result.size()-1));
+        return result;
+    }
+
+}
