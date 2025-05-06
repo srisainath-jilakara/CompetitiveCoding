@@ -1,0 +1,51 @@
+class Solution {
+public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
+List<List<String>> result = new ArrayList<>();
+Set<String> wordSet = new HashSet<>(wordList);
+if (!wordSet.contains(endWord)) return result;
+
+Queue<List<String>> queue = new LinkedList<>();
+queue.add(Arrays.asList(beginWord));
+
+Set<String> visited = new HashSet<>();
+Set<String> usedOnLevel = new HashSet<>();
+
+boolean found = false;
+int level = 1;
+
+while (!queue.isEmpty() && !found) {
+int size = queue.size();
+usedOnLevel.clear();
+
+for (int s = 0; s < size; s++) {
+List<String> path = queue.poll();
+String lastWord = path.get(path.size() - 1);
+
+char[] chars = lastWord.toCharArray();
+for (int i = 0; i < chars.length; i++) {
+char originalChar = chars[i];
+for (char c = 'a'; c <= 'z'; c++) {
+if (c == originalChar) continue;
+chars[i] = c;
+String nextWord = new String(chars);
+if (wordSet.contains(nextWord)) {
+List<String> newPath = new ArrayList<>(path);
+newPath.add(nextWord);
+if (nextWord.equals(endWord)) {
+found = true;
+result.add(newPath);
+} else {
+queue.add(newPath);
+usedOnLevel.add(nextWord);
+}
+}
+}
+chars[i] = originalChar;
+}
+}
+wordSet.removeAll(usedOnLevel);
+}
+
+return result;
+}
+}
