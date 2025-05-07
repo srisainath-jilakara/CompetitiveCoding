@@ -1,0 +1,36 @@
+class Solution {
+    public int minimumEffortPath(int[][] heights) {
+        int m = heights.length;
+        int n = heights[0].length;
+        int[][] diffs = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            Arrays.fill(diffs[i], Integer.MAX_VALUE);
+        }
+
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[0] - b[0]);
+        diffs[0][0] = 0;
+        pq.offer(new int[]{0, 0, 0});
+        int[][] directions = {{1,0},{-1,0},{0,1},{0,-1}};
+
+        while (!pq.isEmpty()) {
+            int[] cords = pq.poll();
+            int diff = cords[0], row = cords[1], col = cords[2];
+
+            if (row == m - 1 && col == n - 1) return diff;
+
+            for (int[] dir : directions) {
+                int newX = row + dir[0];
+                int newY = col + dir[1];
+                if (0 <= newX && newX < m && 0 <= newY && newY < n) {
+                    int curDiff = Math.max(diff, Math.abs(heights[newX][newY] - heights[row][col]));
+                    if (curDiff < diffs[newX][newY]) {
+                        diffs[newX][newY] = curDiff;
+                        pq.offer(new int[]{curDiff, newX, newY});
+                    }
+                }
+            }
+        }
+
+        return -1; 
+    }
+}
