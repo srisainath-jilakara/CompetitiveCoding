@@ -1,0 +1,75 @@
+class Solution {
+    public List<Integer> shortestPath(int n, int m, int[][] edges) {
+        List<List<int[]>> adjList = new ArrayList<>();
+        for (int i = 0; i <= n; i++) { // 1-based indexing
+            adjList.add(new ArrayList<>());
+        }
+
+        // Undirected graph: add both directions
+        for (int[] edge : edges) {
+            int u = edge[0], v = edge[1], w = edge[2];
+            adjList.get(u).add(new int[]{v, w});
+            adjList.get(v).add(new int[]{u, w});
+        }
+
+        int[] dist = new int[n + 1];
+        int[] parent = new int[n + 1];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        Arrays.fill(parent, -1);
+
+        PriorityQueue<Pair> pq = new PriorityQueue<>((a, b) -> a.dis - b.dis);
+        dist[1] = 0;
+        parent[1] = 1;
+        pq.offer(new Pair(0, 1));
+
+        while (!pq.isEmpty()) {
+            Pair cur = pq.poll();
+            int u = cur.node;
+            int d = cur.dis;
+
+            if (d > dist[u]) continue;
+
+            for (int[] neighbor : adjList.get(u)) {
+                int v = neighbor[0];
+                int w = neighbor[1];
+
+                if (dist[u] + w < dist[v]) {
+                    dist[v] = dist[u] + w;
+                    parent[v] = u;
+                    pq.offer(new Pair(dist[v], v));
+                }
+            }
+        }
+
+        List<Integer> result = new ArrayList<>();
+        if (dist[n] == Integer.MAX_VALUE) {
+            result.add(-1);
+            return result;
+        }
+
+        // Reconstruct path
+        LinkedList<Integer> path = new LinkedList<>();
+        int cur = n;
+        while (cur != parent[cur]) {
+            path.addFirst(cur);
+            cur = parent[cur];
+        }
+        path.addFirst(1);
+
+        // Add weight and path to result
+        result.add(dist[n]);
+        result.addAll(path);
+
+        return result;
+    }
+}
+
+class Pair {
+    int dis;
+    int node;
+
+    public Pair(int dis, int node) {
+        this.dis = dis;
+        this.node = node;
+    }
+}
