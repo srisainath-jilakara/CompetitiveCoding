@@ -1,0 +1,33 @@
+class Solution {
+   public int maxAreaOfIsland(int[][] grid) {
+	int m = grid.length;
+	int n = grid[0].length;
+	boolean visited[][] = new boolean[m][n];
+	int maxArea = 0;
+	for(int i=0;i<m;i++){
+	for(int j=0;j<n;j++){
+	if(!visited[i][j] && grid[i][j]==1){
+    maxArea = Math.max(maxArea,dfs(i,j,grid,visited));
+}
+}
+}
+	return maxArea;
+   }
+public int dfs(int row, int col, int grid[][], boolean visited[][]) {
+int area = 1;
+visited[row][col] = true;
+int directions[][] = {{1,0},{-1,0},{0,1},{0,-1}};
+for(int direction[]: directions){
+int newX = row+direction[0];
+int newY = col+direction[1];
+if(0<=newX && newX<grid.length && 0<=newY && newY<grid[0].length && grid[newX][newY]==1){
+if(!visited[newX][newY]){
+area+= dfs(newX,newY,grid,visited);
+}
+}
+}
+return area;
+}
+
+
+}
