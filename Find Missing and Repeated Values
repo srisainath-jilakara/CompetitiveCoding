@@ -1,0 +1,30 @@
+class Solution {
+    public int[] findMissingAndRepeatedValues(int[][] grid) {
+        int n = grid.length;
+        long totalElements = n * n;
+        
+        long expectedSum = totalElements * (totalElements + 1) / 2;
+        long expectedSquareSum = totalElements * (totalElements + 1) * (2 * totalElements + 1) / 6;
+        
+        long actualSum = 0;
+        long actualSquareSum = 0;
+        
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                long val = grid[i][j];
+                actualSum += val;
+                actualSquareSum += val * val;
+            }
+        }
+
+        long sumDiff = actualSum - expectedSum;                 // x - y
+        long squareDiff = actualSquareSum - expectedSquareSum; // x^2 - y^2
+
+        long sumXY = squareDiff / sumDiff;                      // x + y
+
+        int repeated = (int)((sumDiff + sumXY) / 2);            // x
+        int missing = (int)(sumXY - repeated);                  // y
+
+        return new int[]{repeated, missing};
+    }
+}
