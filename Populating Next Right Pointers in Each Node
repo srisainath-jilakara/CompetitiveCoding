@@ -1,0 +1,19 @@
+class Solution {
+   public Node connect(Node root) {
+    if(root==null || root.left==null) return root;
+   Node curLvl = root;
+   Node nextLvl = root.left;
+   while(curLvl!=null && nextLvl!=null) {
+    curLvl.left.next = curLvl.right;
+    if(curLvl.next!=null) {
+        curLvl.right.next = curLvl.next.left;
+    }
+    curLvl=curLvl.next;
+    if(curLvl==null){
+        curLvl =  nextLvl;
+        nextLvl = curLvl.left;
+    }
+   }
+   return root;
+   }
+}
