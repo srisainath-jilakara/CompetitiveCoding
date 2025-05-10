@@ -1,0 +1,21 @@
+class Solution {
+    public int[] sortArray(int[] nums) {
+        boolean flag = true;
+        int len = nums.length;
+        while(flag) {
+            flag = false;
+            for(int i=1;i<len;i++) {
+                if(nums[i-1]>nums[i]) {
+                    swap(nums,i-1,i);
+                    flag = true;
+                }
+            }
+        }
+        return nums;
+    }
+    public void swap(int nums[], int index1, int index2) {
+        int temp = nums[index1];
+        nums[index1] = nums[index2];
+        nums[index2] = temp;
+    }
+}
