@@ -1,0 +1,46 @@
+class Solution {
+    public int countPaths(int n, int[][] roads) {
+        List<List<int[]>> adjList = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            adjList.add(new ArrayList<>());
+        }
+
+        for (int[] road : roads) {
+            adjList.get(road[0]).add(new int[]{road[1], road[2]});
+            adjList.get(road[1]).add(new int[]{road[0], road[2]});
+        }
+
+        long[] dist = new long[n];
+        int[] ways = new int[n];
+        Arrays.fill(dist, Long.MAX_VALUE);
+        dist[0] = 0;
+        ways[0] = 1;
+        int MOD = 1_000_000_007;
+
+        PriorityQueue<long[]> pq = new PriorityQueue<>((a, b) -> Long.compare(a[0], b[0]));
+        pq.offer(new long[]{0, 0}); 
+
+        while (!pq.isEmpty()) {
+            long[] curr = pq.poll();
+            long time = curr[0];
+            int u = (int) curr[1];
+
+            if (time > dist[u]) continue; 
+
+            for (int[] edge : adjList.get(u)) {
+                int v = edge[0];
+                int wt = edge[1];
+
+                if (time + wt < dist[v]) {
+                    dist[v] = time + wt;
+                    ways[v] = ways[u];
+                    pq.offer(new long[]{dist[v], v});
+                } else if (time + wt == dist[v]) {
+                    ways[v] = (ways[v] + ways[u]) % MOD;
+                }
+            }
+        }
+
+        return ways[n - 1];
+    }
+}
