@@ -1,0 +1,17 @@
+class Solution {
+    public int numTrees(int n) {
+        int dp[] = new int[n+1];
+        Arrays.fill(dp,-1);
+        return numTreesReecur(n,dp);
+    }
+    public int numTreesReecur(int n, int dp[]) {
+        if(n==0) return 1;
+        if(dp[n]!=-1) return dp[n];
+        int ways = 0;
+        for(int i=1;i<=n;i++) {
+            ways += numTreesReecur(i-1,dp)*numTreesReecur(n-i,dp);
+        }
+        return dp[n]=ways;
+
+    }
+}
