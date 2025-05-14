@@ -1,0 +1,36 @@
+class Solution {
+    public int splitArray(int[] nums, int k) {
+        int max = Integer.MIN_VALUE;
+        int sum = 0;
+        for (int num : nums) {
+            max = Math.max(max, num);
+            sum += num;
+        }
+
+        int low = max, high = sum, result = sum;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            int splits = getSplitsWithMaxSum(mid, nums);
+            if (splits <= k) {
+                result = mid;
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return result;
+    }
+
+    public int getSplitsWithMaxSum(int maxSum, int[] nums) {
+        int splits = 1, arrSum = 0;
+        for (int num : nums) {
+            if (arrSum + num <= maxSum) {
+                arrSum += num;
+            } else {
+                arrSum = num;  
+                splits++;
+            }
+        }
+        return splits;
+    }
+}
