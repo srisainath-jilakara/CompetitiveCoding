@@ -1,0 +1,32 @@
+import java.util.*;
+
+class Solution {
+
+    private Map<String, List<String>> memo = new HashMap<>();
+
+    public List<String> getLongestSubsequence(String[] words, int[] groups) {
+        return getLongestSubsequenceRecur(0, words, groups, -1);
+    }
+
+    private List<String> getLongestSubsequenceRecur(int index, String[] words, int[] groups, int prevIndex) {
+        if (index >= words.length) return new ArrayList<>();
+
+        String key = index + "," + prevIndex;
+        if (memo.containsKey(key)) {
+            return memo.get(key);
+        }
+
+        List<String> skip = getLongestSubsequenceRecur(index + 1, words, groups, prevIndex);
+
+        List<String> pick = new ArrayList<>();
+        if (prevIndex == -1 || groups[prevIndex] != groups[index]) {
+            pick.add(words[index]);
+            pick.addAll(getLongestSubsequenceRecur(index + 1, words, groups, index));
+        }
+
+        List<String> result = (pick.size() > skip.size()) ? pick : skip;
+        memo.put(key, result);
+
+        return result;
+    }
+}
