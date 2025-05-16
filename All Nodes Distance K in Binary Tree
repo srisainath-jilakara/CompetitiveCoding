@@ -1,0 +1,68 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+     public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
+        List<Integer> result = new ArrayList<>();
+        if (root == null || target == null) {
+            return result;
+        }
+
+             Map<TreeNode, List<TreeNode>> adj = new HashMap<>();
+             buildGraph(root, null, adj);
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        Set<TreeNode> visited = new HashSet<>();
+
+        queue.offer(target);
+        visited.add(target);
+        int distance = 0;
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            if (distance == k) {
+                for (int i = 0; i < size; i++) {
+                    TreeNode current = queue.poll();
+                    result.add(current.val);
+                }
+                return result;
+            }
+
+            for (int i = 0; i < size; i++) {
+                TreeNode current = queue.poll();
+                if (adj.containsKey(current)) {
+                    for (TreeNode neighbor : adj.get(current)) {
+                        if (!visited.contains(neighbor)) {
+                            visited.add(neighbor);
+                            queue.offer(neighbor);
+                        }
+                    }
+                }
+            }
+            distance++;
+        }
+
+        return result;
+    }
+
+    private void buildGraph(TreeNode node, TreeNode parent, Map<TreeNode, List<TreeNode>> adj) {
+        if (node == null) {
+            return;
+        }
+        adj.putIfAbsent(node, new ArrayList<>());
+        if (parent != null) {
+            adj.get(node).add(parent);
+            adj.putIfAbsent(parent, new ArrayList<>());
+            adj.get(parent).add(node);
+        }
+        buildGraph(node.left, node, adj);
+        buildGraph(node.right, node, adj);
+    }
+
+}
