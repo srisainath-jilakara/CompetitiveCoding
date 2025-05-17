@@ -1,0 +1,43 @@
+class Solution {
+   public List<Integer> findAnagrams(String s, String p) {
+        List<Integer> result = new ArrayList<>();
+        int n = s.length();
+        int m = p.length();
+
+        if (m > n) {
+            return result;
+        }
+
+        int[] pCount = new int[26];
+        int[] sCount = new int[26];
+
+        // Count character frequencies in p
+        for (char c : p.toCharArray()) {
+            pCount[c - 'a']++;
+        }
+
+        // Initial window of s
+        for (int i = 0; i < m; i++) {
+            sCount[s.charAt(i) - 'a']++;
+        }
+
+        // Check if the initial window is an anagram
+        if (Arrays.equals(sCount, pCount)) {
+            result.add(0);
+        }
+
+        // Slide the window
+        for (int i = m; i < n; i++) {
+            // Remove the leftmost character
+            sCount[s.charAt(i - m) - 'a']--;
+            // Add the rightmost character
+            sCount[s.charAt(i) - 'a']++;
+            // Check if the current window is an anagram
+            if (Arrays.equals(sCount, pCount)) {
+                result.add(i - m + 1);
+            }
+        }
+
+        return result;
+    }
+}
