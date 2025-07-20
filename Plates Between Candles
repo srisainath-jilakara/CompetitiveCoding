@@ -1,0 +1,44 @@
+class Solution {
+    public int[] platesBetweenCandles(String s, int[][] queries) {
+        int len = s.length();
+        int ans[] = new int[queries.length];
+        int preSum[] = new int[len];
+        int leftC[] = new int[len];
+        int rightC[] = new int[len];
+        int plates=0;
+        for(int i=0;i<len;i++) {
+            if(s.charAt(i)=='*'){
+                plates++;
+            }
+             preSum[i]=plates;
+        }
+        int leftCandle = -1;
+        for(int i=0;i<len;i++){
+            if(s.charAt(i)=='|')
+            {
+                leftCandle = i;
+            }
+            leftC[i] = leftCandle;
+        }
+        int rightCandle = -1;
+        for(int i=len-1;i>=0;i--){
+            if(s.charAt(i)=='|') {
+                rightCandle = i;
+            }
+              rightC[i]=rightCandle;
+        }
+
+        for(int i=0;i<queries.length;i++) {
+            int q[]= queries[i];
+            int start = q[0];
+            int end = q[1];
+            int left = rightC[start];
+            int right = leftC[end];
+            if(left!=-1&&right!=-1&&left<right) {
+                ans[i]=preSum[right]-preSum[left];
+            }
+
+        }
+        return ans;
+    }
+}Plates Between Candles
