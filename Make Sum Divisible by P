@@ -1,0 +1,32 @@
+class Solution {
+    public int minSubarray(int[] nums, int p) {
+        long sum = 0;
+        for (int num : nums) {
+            sum += num;
+        }
+
+        int rem = (int)(sum % p);
+        if (rem == 0) return 0;
+
+        int n = nums.length;
+        int result = n; 
+
+        HashMap<Integer, Integer> map = new HashMap<>();
+        map.put(0, -1);
+
+        long prefix = 0;
+
+        for (int i = 0; i < n; i++) {
+            prefix = (prefix + nums[i]) % p;
+            int needed = (int)((prefix - rem + p) % p);
+
+            if (map.containsKey(needed)) {
+                result = Math.min(result, i - map.get(needed));
+            }
+
+            map.put((int)prefix, i);
+        }
+
+        return result == n ? -1 : result;
+    }
+}
