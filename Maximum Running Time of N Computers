@@ -1,0 +1,27 @@
+class Solution {
+    public long maxRunTime(int n, int[] batteries) {
+        long total = 0;
+        for (int b : batteries) total += b;
+
+        long left = 0, right = total / n;
+
+        while (left < right) {
+            long mid = right - (right - left) / 2;
+            if (canRun(mid, batteries, n)) {
+                left = mid;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        return left;
+    }
+
+    private boolean canRun(long T, int[] batteries, int n) {
+        long power = 0;
+        for (long b : batteries) {
+            power += Math.min(b, T);
+        }
+        return power >= n * T;
+    }
+}
