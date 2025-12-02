@@ -1,0 +1,40 @@
+import java.util.*;
+
+class Solution {
+    static final long MOD = 1_000_000_007;
+
+    public int countTrapezoids(int[][] points) {
+        // Count points per y-level
+        HashMap<Integer, Integer> freq = new HashMap<>();
+        for (int[] p : points) {
+            freq.put(p[1], freq.getOrDefault(p[1], 0) + 1);
+        }
+
+        long sum = 0;      // Σ a_i
+        long sumSq = 0;    // Σ (a_i)^2
+
+        for (int c : freq.values()) {
+            if (c >= 2) {
+                long a = comb2(c);     // C(c,2)
+                sum = (sum + a) % MOD;
+                sumSq = (sumSq + (a * a) % MOD) % MOD;
+            }
+        }
+
+        // Using formula: (sum^2 - sumSq) / 2
+        long result = (sum * sum % MOD - sumSq + MOD) % MOD;
+        result = result * inv2() % MOD;   // multiply by inverse of 2 mod M
+
+        return (int) result;
+    }
+
+    // C(n,2) = n*(n-1)/2
+    private long comb2(long n) {
+        return n * (n - 1) / 2 % MOD;
+    }
+
+    // modular inverse of 2 under MOD
+    private long inv2() {
+        return (MOD + 1) / 2; // since MOD = 1e9+7, which is prime → inverse(2) = (MOD+1)/2
+    }
+}
