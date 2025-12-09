@@ -1,0 +1,24 @@
+class Solution {
+    public int halveArray(int[] nums) {
+        double sum = 0;
+        PriorityQueue<Double> pq = new PriorityQueue<>((a,b) -> Double.compare(b,a));
+
+        for(int num : nums){
+            sum += num;
+            pq.add((double)num);
+        }
+
+        double target = sum / 2;
+        int operations = 0;
+
+        while(sum > target){
+            double largest = pq.poll();
+            double reduced = largest / 2;
+            sum -= reduced;      // subtract reduction from total sum
+            pq.offer(reduced); 
+            operations++;
+        }
+
+        return operations;
+    }
+}
