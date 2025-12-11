@@ -1,0 +1,35 @@
+class Solution {
+    public int countCoveredBuildings(int n, int[][] buildings) {
+        int maxRow[] = new int[n+1];
+        int minRow[] = new int[n+1];
+        int maxCol[] = new int[n+1];
+        int minCol[] = new int[n+1];
+        Arrays.fill(minRow,n+1);
+        Arrays.fill(minCol,n+1);
+        int count = 0;
+        for(int i=0;i<buildings.length;i++) {
+            int point[] = buildings[i];
+           if(maxCol[point[0]]<point[1]) {
+            maxCol[point[0]] = point[1];
+           }
+           if(minCol[point[0]]>point[1]) {
+            minCol[point[0]] = point[1];
+           }
+           if(maxRow[point[1]]<point[0]) {
+            maxRow[point[1]] = point[0];
+           }
+           if(minRow[point[1]]>point[0]) {
+            minRow[point[1]] = point[0];
+           }
+        }
+        for(int i=0;i<buildings.length;i++) {
+            int point[] = buildings[i];
+            if(minRow[point[1]]<point[0] && maxRow[point[1]]>point[0] && maxCol[point[0]]>point[1] && minCol[point[0]]<point[1])
+        {
+            count++;
+        }
+
+        }
+        return count;
+    }
+}
