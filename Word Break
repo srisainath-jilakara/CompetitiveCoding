@@ -1,0 +1,41 @@
+class Solution {
+    public boolean wordBreak(String s, List<String> wordDict) {
+        HashSet<String> set = new HashSet<>(wordDict);
+        // return wordBreakRecur(s,0,set,new StringBuilder());
+        int len = s.length();
+        boolean dp[] = new boolean[len+1];
+        // System.out.println(s.substring(0,1));
+        dp[0] = true;
+        for(int i=1;i<=len;i++) {
+          for(int j=0;j<i;j++) {
+            if(dp[j] && set.contains(s.substring(j,i))) {
+                dp[i] = true;
+                break;
+            }
+          }
+        }
+        return dp[len];
+    }
+    public boolean wordBreakRecur(String s , int curIndex, HashSet<String> set, StringBuilder cur)  {
+        if(curIndex==s.length()) {
+            return set.contains(cur.toString());
+        }
+        cur.append(s.charAt(curIndex));
+        if(set.contains(cur.toString())) {
+            return wordBreakRecur(s.substring(curIndex+1),0,set,new StringBuilder()) || wordBreakRecur(s,curIndex+1,set,cur);
+        }
+        return wordBreakRecur(s,curIndex+1,set,cur);
+    }
+}
+
+
+// catsandog
+
+// index - cats andog
+// catsan
+
+//  s = "catsandog", wordDict = ["catsan","dog","cats"]
+
+"leetcode", wordDict = ["leetcode"]
+dp[0] ""
+
