@@ -1,0 +1,47 @@
+class Solution {
+    public int networkDelayTime(int[][] times, int n, int k) {
+        List<int[]> graph[] = new ArrayList[n+1];
+        for(int i=1;i<=n;i++){
+            graph[i]=new ArrayList<>();
+        }
+        for(int time[]:times){
+            int u = time[0];
+            int v = time[1];
+            int w = time[2];
+            graph[u].add(new int[]{v,w});
+        }
+        int dis[] = new int[n+1];
+        Arrays.fill(dis,Integer.MAX_VALUE);
+        PriorityQueue<Node> pq = new PriorityQueue<>((a,b)->a.dis-b.dis);
+        dis[k]=0;
+        pq.offer(new Node(k,0));
+        while(!pq.isEmpty()) {
+            Node node = pq.poll();
+            if(node.dis>dis[node.v]) continue;
+            dis[node.v] = node.dis;
+            for( int arr[] : graph[node.v]) {
+                int v = arr[0];
+                int w = arr[1];
+                if(dis[node.v]+w<dis[v]) {
+                    dis[v] = dis[node.v]+w;
+                    pq.offer(new Node(v,dis[v]));
+                }
+            }
+        }
+        int result = Integer.MIN_VALUE;
+        for(int i=1;i<=n;i++){
+            if(dis[i]==Integer.MAX_VALUE)
+            return -1;
+            if(result<dis[i]) result = dis[i];
+        }
+        return result;
+    }
+}
+class Node {
+    int v;
+    int dis;
+    public Node(int v, int dis) {
+        this.v = v;
+        this.dis = dis;
+    }
+}
