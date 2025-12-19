@@ -1,0 +1,19 @@
+class Solution {
+    public int findPairs(int[] nums, int k) {
+        if(k<0) return 0;
+        HashMap<Integer,Integer> freq = new HashMap<>();
+        for(int num: nums) {
+            freq.put(num,freq.getOrDefault(num,0)+1);
+        }
+        int count = 0;
+        for(int i: freq.keySet()) {
+            if(k==0) {
+                if(freq.get(i)>1) count++;
+            }
+            else {
+                if(freq.containsKey(i+k)) count++;
+            }
+        }
+        return count;
+    }
+}
