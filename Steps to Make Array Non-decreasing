@@ -1,0 +1,19 @@
+class Solution {
+    public int totalSteps(int[] nums) {
+        Deque<int[]> stack = new ArrayDeque<>();
+        int answer=0;
+        for(int num:nums){
+            int deathTime = 0;
+            while(!stack.isEmpty() && stack.peek()[0]<=num) {
+                deathTime = Math.max(deathTime,stack.peek()[1]);
+                stack.pop();
+            }
+            if(!stack.isEmpty()) {
+                deathTime++;
+            }
+            answer = Math.max(answer,deathTime);
+            stack.push(new int[]{num,deathTime});
+        }
+        return answer;
+    }
+}
