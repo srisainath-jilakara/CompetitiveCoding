@@ -1,0 +1,35 @@
+class FreqStack {
+    Map<Integer,Integer> freq;
+    Map<Integer,Deque<Integer>> freqVal;
+    int maxFreq;
+    public FreqStack() {
+        freq = new HashMap<>();
+        freqVal = new HashMap<>();
+        maxFreq = Integer.MIN_VALUE;
+    }
+    
+    public void push(int val) {
+        int value = freq.getOrDefault(val,0)+1;
+        freq.put(val,value);
+        if(maxFreq<=value){
+            maxFreq = value;
+        }
+        freqVal.computeIfAbsent(value,k->new ArrayDeque<>()).push(val);
+    }
+    
+    public int pop() {
+        int result = freqVal.get(maxFreq).pop();
+        freq.put(result,freq.get(result)-1);
+        if(freqVal.get(maxFreq).isEmpty()) {
+            maxFreq--;
+        }
+        return result;
+    }
+}
+
+/**
+ * Your FreqStack object will be instantiated and called as such:
+ * FreqStack obj = new FreqStack();
+ * obj.push(val);
+ * int param_2 = obj.pop();
+ */
