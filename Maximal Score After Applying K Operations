@@ -1,0 +1,17 @@
+class Solution {
+    public long maxKelements(int[] nums, int k) {
+        PriorityQueue<Long> pq = new PriorityQueue<>((a,b)->Long.compare(b,a));
+        for(int num:nums){
+            pq.offer((long)num);
+        }
+        int count = 0;
+        long score = 0;
+        while(count<k){
+            long ele = pq.poll();
+            score+=ele;
+            pq.offer((long)(ele+2)/3);
+            count++;
+        }
+        return score;
+    }
+}
