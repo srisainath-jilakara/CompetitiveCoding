@@ -1,0 +1,28 @@
+// User function Template for Java
+
+class Solution {
+
+    public void Rearrange(int arr[], int n) {
+       int i=0;
+       while(i<n) {
+           if(arr[i]>=0) {
+               int j = i+1;
+               while(j<n && arr[j]>=0) {
+                         j++;
+                   }
+               
+              if(j==n) return;
+              int temp = arr[j];
+              for(int k = j; k>i;k--) {
+                  arr[k] = arr[k-1];
+              }
+           
+               arr[i] = temp;
+           }
+           i++;
+       }
+    }
+
+}
+
+
