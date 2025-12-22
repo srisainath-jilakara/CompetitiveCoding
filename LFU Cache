@@ -1,0 +1,66 @@
+class LFUCache {
+    HashMap<Integer,Node> map;
+    HashMap<Integer,LinkedHashSet<Integer>> freqMap;
+    int minFreq;
+    int capacity;
+    public LFUCache(int capacity) {
+        this.minFreq = 0;
+        this.capacity = capacity;
+        map = new HashMap<>();
+        freqMap = new HashMap<>();
+    }
+    
+    public int get(int key) {
+        if(!map.containsKey(key)) {
+            return -1;
+        }
+        Node node = map.get(key);
+        int freq = node.freq;
+        freqMap.get(freq).remove(key);
+        if(freqMap.get(freq).isEmpty()){
+            minFreq = minFreq==freq?freq+1:minFreq;
+            freqMap.remove(freq);
+        }
+        node.freq++;
+        freqMap.computeIfAbsent(freq+1,k->new LinkedHashSet<>()).add(key);
+        return node.val;
+        
+    }
+    
+    public void put(int key, int value) {
+        if(capacity==0) return;
+        if(map.containsKey(key)) {
+            map.get(key).val = value;
+            get(key);
+            return;
+        }
+        if(map.size()==capacity) {
+          int evictedKey = freqMap.get(minFreq).iterator().next();
+          freqMap.get(minFreq).remove(evictedKey);
+           map.remove(evictedKey);
+          if(freqMap.get(minFreq).size()==0) {
+            freqMap.remove(minFreq);
+          }
+        }
+        minFreq = 1;
+        map.put(key, new Node(key,value));
+        freqMap.computeIfAbsent(minFreq, k->new LinkedHashSet<>()).add(key);
+    }
+    class Node {
+        int key;
+        int val;
+        int freq;
+        public Node(int key, int val){
+            this.key = key;
+            this.val = val;
+            this.freq = 1;
+        }
+    }
+}
+
+/**
+ * Your LFUCache object will be instantiated and called as such:
+ * LFUCache obj = new LFUCache(capacity);
+ * int param_1 = obj.get(key);
+ * obj.put(key,value);
+ */
